@@ -32,15 +32,19 @@ class _SavedPageBody extends State<SavedPageBody> {
                   }
                 } else {
                   children = <Widget>[
-                    SizedBox(
-                      child: CircularProgressIndicator(),
-                      width: 30,
-                      height: 60,
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(36.0),
+                          child: SizedBox(
+                            child: CircularProgressIndicator(),
+                            width: 60,
+                            height: 60,
+                          ),
+                        ),
+                        Text('Getting your alerts...')
+                      ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: Text('Getting your alerts...'),
-                    )
                   ];
                 }
                 return ListView(
