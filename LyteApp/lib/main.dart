@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'Login/login_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(LyteApp());
 }
 
-class MyApp extends StatelessWidget {
+class LyteApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: LytehouseColors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        buttonTheme: ButtonThemeData(
+          buttonColor: LytehouseColors.purple,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       routes: {
         '/': (context) => LoginScreen(),
