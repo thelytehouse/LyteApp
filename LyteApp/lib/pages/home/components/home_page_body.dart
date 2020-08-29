@@ -1,3 +1,4 @@
+import 'package:LyteApp/assets/theme.dart';
 import 'package:LyteApp/models/alert_response.dart';
 import 'package:LyteApp/pages/home/components/card.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,6 @@ class _HomePageBody extends State<HomePageBody> {
   List<Alert> alerts = [];
   @override
   Widget build(BuildContext context) {
-    // returnCard();
     return new Flexible(
       child: new Container(
           color: Theme.Colors.alertPageBackground,
@@ -52,14 +52,17 @@ class _HomePageBody extends State<HomePageBody> {
   }
 
   dismissCallback() {
+    _showToast(this.context, "Alert successfully dismissed");
     setState(() {});
   }
 
-  Future<void> returnCard() async {
-    AlertResponse jsonObject = await AlertService().getNewAlerts();
-    setState(() {
-      alerts = jsonObject.items;
-    });
-    return '';
+  void _showToast(BuildContext context, String message) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: LytehouseColors.purple,
+      ),
+    );
   }
 }
