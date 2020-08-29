@@ -10,25 +10,82 @@ import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/services/alert_feed_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:isolate';
 import 'dart:math';
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    new FlutterLocalNotificationsPlugin();
 
 class HomePageBody extends StatefulWidget {
   @override
   _HomePageBody createState() => _HomePageBody();
 }
 
-class _HomePageBody extends State<HomePageBody> {
+class _HomePageBody extends State<HomePageBody> with WidgetsBindingObserver {
+  static AppLifecycleState _applicationState = AppLifecycleState.resumed;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('app state');
+    print(state);
+    setState(() {
+      _applicationState = state;
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
-    AndroidAlarmManager.initialize();
+    WidgetsBinding.instance.addObserver(this);
 
-    // Register for events from the background isolate. These messages will
-    // always coincide with an alarm firing.
+    // Starting the notaification stuff
+    _initializeflutterLocalNotificationsPlugin();
+
+    // Starting the background stuff
+    AndroidAlarmManager.initialize();
     port.listen((_) async => await _incrementCounter());
     callAlarmManager();
+  }
+
+  _initializeflutterLocalNotificationsPlugin() {
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  }
+
+  static Future _showNotificationWithDefaultSound() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'New Alert',
+      'A new alert has been generated',
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
   }
 
   Future<void> _incrementCounter() async {
@@ -42,21 +99,21 @@ class _HomePageBody extends State<HomePageBody> {
 
   // The callback for our alarm
   static Future<void> callback() async {
-    print('Alarm fired!');
-
     // Get the previous cached count and increment it.
     final prefs = await SharedPreferences.getInstance();
     int currentCount = prefs.getInt(countKey);
     String userName = prefs.getString(userNameKey);
     String orgId = prefs.getString(orgIdKey);
-    print(userName);
-    print(orgId);
 
     var response = await AlertService()
         .getNewAlerts(userToken: userName, userOrganisation: orgId);
 
-    if (response.total != currentCount) {
+    // Testing if it will incrememtnt
+    if (response.total != currentCount &&
+        _applicationState != AppLifecycleState.resumed) {
+      print('We should get push notifications now');
       await prefs.setInt(countKey, response.total);
+      await _showNotificationWithDefaultSound();
     }
 
     // This will be null if we're running in the background.
