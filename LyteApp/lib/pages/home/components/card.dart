@@ -30,7 +30,7 @@ class AlertCard extends StatelessWidget {
           child: Image.network(
             alert.gifPath,
             width: 100,
-            height: 150,
+            height: 184,
             fit: BoxFit.cover,
           ),
         ),
@@ -77,7 +77,7 @@ class AlertCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildShareButton(),
+                _buildShareButton(alert.clipPath),
                 _buildSaveButton(),
                 _buildDismissButton()
               ],
@@ -107,11 +107,6 @@ class AlertCard extends StatelessWidget {
     );
   }
 
-  _navigateTo(context, String id) {
-    Routes.navigateTo(context, '/detail/${alert.id}',
-        transition: TransitionType.fadeIn);
-  }
-
   Widget _buildSaveButton() {
     return IconButton(
       color: LytehouseColors.yellow,
@@ -122,12 +117,14 @@ class AlertCard extends StatelessWidget {
     );
   }
 
-  Widget _buildShareButton() {
+  Widget _buildShareButton(String ulr) {
     return IconButton(
       color: LytehouseColors.yellow,
       icon: Icon(Icons.share),
       onPressed: () async {
         print("This is the share button ${alert.id}");
+        Share.share('Lytehouse caught this cunt ' + ulr,
+            subject: 'Lytehouse caught this cunt');
       },
     );
   }

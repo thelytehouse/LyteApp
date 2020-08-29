@@ -19,7 +19,7 @@ class _HomePageBody extends State<HomePageBody> {
       child: new Container(
         color: Theme.Colors.alertPageBackground,
         child: new ListView.builder(
-          itemExtent: 170.0,
+          itemExtent: 185.0,
           itemCount: alerts.length,
           itemBuilder: (_, index) => new AlertCard(alerts[index]),
         ),
