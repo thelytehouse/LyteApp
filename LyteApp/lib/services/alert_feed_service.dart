@@ -74,4 +74,37 @@ class AlertService {
 
     return "Fail";
   }
+
+  // {"ids":["8d0f6481-c213-4b16-a033-a3338e377137"],"user_id":"3acc68e5-90e2-4ec2-a74f-a7ba30c4ece3","timestamp":"2020-08-29 20:20:39"}
+  Future<String> saveAlert(String alertID) async {
+    String userID = UserService().getUser.id;
+    String token = UserService().getUser.token;
+    String _endpoint = 'http://3.1.209.186:5000/api/v1/AlertAPI/Save';
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd HH:MM:ss').format(now);
+    Map<String, dynamic> _body = {
+      'user_id': userID,
+      'timestamp': "$formattedDate",
+      'ids': [alertID]
+    };
+
+    Map<String, String> _requestHeaders = {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json"
+    };
+
+    final response = await http.post(
+      _endpoint,
+      body: json.encode(_body),
+      headers: _requestHeaders,
+    );
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      print(response.body);
+    }
+
+    return "Fail";
+  }
 }
