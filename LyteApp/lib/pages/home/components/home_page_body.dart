@@ -14,16 +14,38 @@ class _HomePageBody extends State<HomePageBody> {
   List<Alert> alerts = [];
   @override
   Widget build(BuildContext context) {
-    returnCard();
+    // returnCard();
     return new Flexible(
       child: new Container(
-        color: Theme.Colors.alertPageBackground,
-        child: new ListView.builder(
-          itemExtent: 170.0,
-          itemCount: alerts.length,
-          itemBuilder: (_, index) => new AlertCard(alerts[index]),
-        ),
-      ),
+          color: Theme.Colors.alertPageBackground,
+          child: FutureBuilder<AlertResponse>(
+              future: AlertService().getNewAlerts(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<AlertResponse> snapshot) {
+                List<Widget> children = [];
+                if (snapshot.hasData) {
+                  List<Alert> alerts = snapshot.data.items;
+                  for (var i = 0; i < alerts.length; i++) {
+                    children.add(AlertCard(alerts[i]));
+                  }
+                } else {
+                  children = <Widget>[
+                    SizedBox(
+                      child: CircularProgressIndicator(),
+                      width: 60,
+                      height: 60,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text('Getting your alerts...'),
+                    )
+                  ];
+                }
+                return ListView(
+                  itemExtent: 170.0,
+                  children: children,
+                );
+              })),
     );
   }
 

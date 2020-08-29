@@ -58,7 +58,7 @@ class AlertService {
     print('date is $now');
     Map<String, dynamic> _body = {
       'user_id': userID,
-      'dismiss_timestamp': formattedDate,
+      'dismiss_timestamp': "$formattedDate",
       'ids': [alertID]
     };
 
@@ -69,18 +69,14 @@ class AlertService {
 
     final response = await http.post(
       _endpoint,
-      body: _body,
+      body: json.encode(_body),
       headers: _requestHeaders,
     );
 
     print(response.body);
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return json.decode(response.body);
+      return response.body;
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       print(response.body);
     }
 

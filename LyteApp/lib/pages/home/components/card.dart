@@ -4,8 +4,6 @@ import 'package:LyteApp/services/alert_feed_service.dart';
 import 'package:LyteApp/pages/home/components/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
-import 'package:fluro/fluro.dart';
-import 'package:LyteApp/Routes.dart';
 
 class AlertCard extends StatelessWidget {
   final Alert alert;
@@ -19,14 +17,7 @@ class AlertCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 5.0),
       child: new Hero(
         tag: 'alert-icon-${alert.id}',
-        child:
-            // Image.network(
-            //   alert.gifPath,
-            //   width: 100,
-            //   height: 150,
-            //   fit: BoxFit.cover,
-            // ),
-            ClipRRect(
+        child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(50.0)),
           child: Image.network(
             alert.gifPath,
@@ -108,11 +99,6 @@ class AlertCard extends StatelessWidget {
     );
   }
 
-  _navigateTo(context, String id) {
-    Routes.navigateTo(context, '/detail/${alert.id}',
-        transition: TransitionType.fadeIn);
-  }
-
   Widget _buildSaveButton() {
     return IconButton(
       color: LytehouseColors.yellow,
@@ -135,17 +121,18 @@ class AlertCard extends StatelessWidget {
 
   Widget _buildDismissButton() {
     return Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: IconButton(
-          icon: Icon(Icons.delete),
-          color: LytehouseColors.yellow,
-          onPressed: () async {
-            print("This is the dismiss button ${alert.id}");
-            var response = await AlertService().dismissAlert(alert.id);
-            if (response.toLowerCase() != "fail") {
-              AlertService().getNewAlerts();
-            }
-          },
-        ));
+      padding: const EdgeInsets.all(0.0),
+      child: IconButton(
+        icon: Icon(Icons.delete),
+        color: LytehouseColors.yellow,
+        onPressed: () async {
+          print("This is the dismiss button ${alert.id}");
+          var response = await AlertService().dismissAlert(alert.id);
+          if (response.toLowerCase() != "fail") {
+            AlertService().getNewAlerts();
+          }
+        },
+      ),
+    );
   }
 }
