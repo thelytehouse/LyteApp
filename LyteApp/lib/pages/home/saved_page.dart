@@ -6,12 +6,12 @@ import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/services/alert_feed_service.dart';
 
-class HomePageBody extends StatefulWidget {
+class SavedPageBody extends StatefulWidget {
   @override
-  _HomePageBody createState() => _HomePageBody();
+  _SavedPageBody createState() => _SavedPageBody();
 }
 
-class _HomePageBody extends State<HomePageBody> {
+class _SavedPageBody extends State<SavedPageBody> {
   List<Alert> alerts = [];
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _HomePageBody extends State<HomePageBody> {
       child: new Container(
           color: Theme.Colors.alertPageBackground,
           child: FutureBuilder<AlertResponse>(
-              future: AlertService().getNewAlerts(),
+              future: AlertService().getSavedAlerts(),
               builder: (BuildContext context,
                   AsyncSnapshot<AlertResponse> snapshot) {
                 List<Widget> children = [];
