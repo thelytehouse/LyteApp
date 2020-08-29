@@ -21,7 +21,10 @@ class LoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildLogoImage(),
+          Container(
+            alignment: Alignment.center,
+            child: _buildLogoImage(),
+          ),
           Expanded(
             child: Container(
               alignment: Alignment.center,
@@ -41,12 +44,11 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLogoImage() {
-    double _lrbPadding = 20.0;
+    double _lrbPadding = 50.0;
     double _topPadding = 50.0;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-          _lrbPadding, _topPadding, _lrbPadding, _lrbPadding),
+      padding: EdgeInsets.fromLTRB(_lrbPadding, _topPadding, _lrbPadding, 0),
       child: Image(
         image: AssetImage(_logoImagePath),
         fit: BoxFit.cover,
@@ -101,10 +103,11 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(36.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 50,
         child: RaisedButton(
           color: LytehouseColors.purple,
           textColor: Colors.white,
