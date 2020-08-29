@@ -14,9 +14,6 @@ Future<AlertResponse> getNewAlerts(String orgID) async {
     ]
   });
 
-  print('_body');
-  print(_body);
-
   Map<String, String> _requestHeaders = {
     "Authorization":
         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTkwMjgzMTEsImlhdCI6MTU5NzgxODcxMSwic3ViIjoiNzVkMzQ4YWUtOThhZC00NTY2LTgxMDgtNDAxMmM0YjY5MDU2In0.ee7vBcv559Nj4EFUOJLiPdM50hocbdV3jIA_ZKWmMd0",
@@ -28,9 +25,6 @@ Future<AlertResponse> getNewAlerts(String orgID) async {
     body: _body,
     headers: _requestHeaders,
   );
-  print('below is response');
-  print(response.statusCode);
-  print(response.body);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
@@ -38,7 +32,6 @@ Future<AlertResponse> getNewAlerts(String orgID) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    print(response.body);
   }
   return new AlertResponse();
 }

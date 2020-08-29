@@ -26,6 +26,7 @@ dependencies:
   hexcolor: ^1.0.4
   fluro: ^1.1.0
   http: 0.12.2
+  video_player: ^0.10.12+2
 
 
   # The following adds the Cupertino Icons font to your application.
