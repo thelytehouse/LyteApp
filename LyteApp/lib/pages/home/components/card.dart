@@ -9,8 +9,12 @@ import 'package:share/share.dart';
 class AlertCard extends StatelessWidget {
   final Alert alert;
   final Function successfulDismissCallback;
+  final Function successfulSaveCallback;
 
-  AlertCard({this.alert, this.successfulDismissCallback});
+  AlertCard(
+      {this.alert,
+      this.successfulDismissCallback,
+      this.successfulSaveCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +110,14 @@ class AlertCard extends StatelessWidget {
       color: LytehouseColors.yellow,
       icon: Icon(Icons.save),
       onPressed: () async {
-        print("This is the save button ${alert.id}");
+        var response = await AlertService().saveAlert(alert.id);
+
+        if (response.toLowerCase() != "fail") {
+          if (successfulSaveCallback != null) {
+            successfulSaveCallback();
+          }
+          print("This is the save button ${alert.id}");
+        }
       },
     );
   }

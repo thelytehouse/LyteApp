@@ -26,9 +26,13 @@ class _HomePageBody extends State<HomePageBody> {
                 if (snapshot.hasData) {
                   List<Alert> alerts = snapshot.data.items;
                   for (var i = 0; i < alerts.length; i++) {
-                    children.add(AlertCard(
+                    children.add(
+                      AlertCard(
                         alert: alerts[i],
-                        successfulDismissCallback: dismissCallback));
+                        successfulDismissCallback: dismissCallback,
+                        successfulSaveCallback: saveCallback,
+                      ),
+                    );
                   }
                 } else {
                   children = <Widget>[
@@ -56,7 +60,12 @@ class _HomePageBody extends State<HomePageBody> {
     setState(() {});
   }
 
-  void _showToast(BuildContext context, String message) {
+  saveCallback() {
+    _showToast(this.context, "Alert successfully saved");
+    setState(() {});
+  }
+
+  _showToast(BuildContext context, String message) {
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(
       SnackBar(
