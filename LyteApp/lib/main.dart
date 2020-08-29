@@ -1,17 +1,13 @@
-import 'dart:developer';
-
-import 'package:LyteApp/Assets/theme.dart';
+import 'package:LyteApp/assets/theme.dart';
 import 'package:LyteApp/home/home_page.dart';
+import 'package:LyteApp/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
-import 'Login/login_page.dart';
-
 void main() {
-  log('Got in Main');
-  runApp(MyApp());
+  runApp(LyteApp());
 }
 
-class MyApp extends StatelessWidget {
+class LyteApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,6 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: LytehouseColors.purple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        buttonTheme: ButtonThemeData(
+          buttonColor: LytehouseColors.purple,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       routes: {
         '/': (context) => HomePage(),
