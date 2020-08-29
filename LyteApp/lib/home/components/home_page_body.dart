@@ -2,6 +2,7 @@ import 'package:LyteApp/home/components/card.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
+import 'package:LyteApp/services/alert_feed_service.dart';
 
 class HomePageBody extends StatelessWidget {
   @override
@@ -42,6 +43,15 @@ class HomePageBody extends StatelessWidget {
         priority: 'medium',
         timeStamp: '22/01/2020 16:00');
     alerts.add(alert2);
+    var val = '';
+    Future<String> jsonObject = getNewAlerts('');
+    jsonObject.then((value) {
+      val = value;
+      int i = 0;
+    });
+
     return alerts;
   }
+
+  getCardFromJson() {}
 }

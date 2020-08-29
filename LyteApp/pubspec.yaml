@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   hexcolor: ^1.0.4
-  fluro: "^1.1.0"
+  fluro: ^1.1.0
   http: 0.12.2
 
 
