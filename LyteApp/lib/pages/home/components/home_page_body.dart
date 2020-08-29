@@ -1,6 +1,5 @@
 import 'package:LyteApp/models/alert_response.dart';
 import 'package:LyteApp/pages/home/components/card.dart';
-import 'package:LyteApp/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
@@ -15,12 +14,12 @@ class _HomePageBody extends State<HomePageBody> {
   List<Alert> alerts = [];
   @override
   Widget build(BuildContext context) {
-    Future<String> v = returnCard();
+    returnCard();
     return new Flexible(
       child: new Container(
         color: Theme.Colors.alertPageBackground,
         child: new ListView.builder(
-          itemExtent: 160.0,
+          itemExtent: 170.0,
           itemCount: alerts.length,
           itemBuilder: (_, index) => new AlertCard(alerts[index]),
         ),
@@ -28,8 +27,8 @@ class _HomePageBody extends State<HomePageBody> {
     );
   }
 
-  Future<String> returnCard() async {
-    AlertResponse jsonObject = await getNewAlerts();
+  Future<void> returnCard() async {
+    AlertResponse jsonObject = await AlertService().getNewAlerts();
     setState(() {
       alerts = jsonObject.items;
     });

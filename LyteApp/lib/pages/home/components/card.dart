@@ -1,7 +1,8 @@
+import 'package:LyteApp/assets/theme.dart';
 import 'package:LyteApp/models/alert.dart';
+import 'package:LyteApp/services/alert_feed_service.dart';
 import 'package:LyteApp/pages/home/components/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:share/share.dart';
 
@@ -72,6 +73,14 @@ class AlertCard extends StatelessWidget {
                     size: 14.0, color: Theme.Colors.alertDistance),
                 new Text(alert.objects, style: Theme.TextStyles.alertDistance),
               ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildShareButton(),
+                _buildSaveButton(),
+                _buildDismissButton()
+              ],
             )
           ],
         ),
@@ -96,5 +105,46 @@ class AlertCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _navigateTo(context, String id) {
+    Routes.navigateTo(context, '/detail/${alert.id}',
+        transition: TransitionType.fadeIn);
+  }
+
+  Widget _buildSaveButton() {
+    return IconButton(
+      color: LytehouseColors.yellow,
+      icon: Icon(Icons.save),
+      onPressed: () async {
+        print("This is the save button ${alert.id}");
+      },
+    );
+  }
+
+  Widget _buildShareButton() {
+    return IconButton(
+      color: LytehouseColors.yellow,
+      icon: Icon(Icons.share),
+      onPressed: () async {
+        print("This is the share button ${alert.id}");
+      },
+    );
+  }
+
+  Widget _buildDismissButton() {
+    return Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: IconButton(
+          icon: Icon(Icons.delete),
+          color: LytehouseColors.yellow,
+          onPressed: () async {
+            print("This is the dismiss button ${alert.id}");
+            var response = await AlertService().dismissAlert(alert.id);
+            if (response.toLowerCase() != "fail") {
+              AlertService().getNewAlerts();
+            }
+          },
+        ));
   }
 }
