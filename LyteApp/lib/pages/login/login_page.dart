@@ -17,17 +17,26 @@ class LoginScreen extends StatelessWidget {
       // appBar: AppBar(
       //   title: Text("Login Screen"),
       // ),
-      body: Column(children: [
-        Expanded(
-          child: ListView(
-            children: [
-              _buildLogoImage(),
-              _buildInputfields(),
-            ],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildLogoImage(),
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(20.0),
+                children: [
+                  _buildInputfields(),
+                ],
+              ),
+            ),
           ),
-        ),
-        _buildLoginButton(context),
-      ]),
+          _buildLoginButton(context),
+        ],
+      ),
     );
   }
 
@@ -60,7 +69,14 @@ class LoginScreen extends StatelessWidget {
       child: TextField(
         controller: _usernameController,
         decoration: InputDecoration(
-            border: InputBorder.none, hintText: 'Enter user name here'),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: LytehouseColors.purple,
+              width: 1.5,
+            ),
+          ),
+          hintText: 'Enter user name here',
+        ),
       ),
     );
   }
@@ -72,7 +88,14 @@ class LoginScreen extends StatelessWidget {
         obscureText: true,
         controller: _passwordController,
         decoration: InputDecoration(
-            border: InputBorder.none, hintText: 'Enter password here'),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: LytehouseColors.purple,
+              width: 1.5,
+            ),
+          ),
+          hintText: 'Enter password here',
+        ),
       ),
     );
   }
