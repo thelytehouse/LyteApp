@@ -5,9 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class AlertService {
-  Future<AlertResponse> getNewAlerts() async {
-    String orgID = UserService().getUser.organisationID;
-    String token = UserService().getUser.token;
+  Future<AlertResponse> getNewAlerts(
+      {String userToken, String userOrganisation}) async {
+    String orgID = userOrganisation ?? UserService().getUser.organisationID;
+    String token = userToken ?? UserService().getUser.token;
     String _endpoint = 'http://3.1.209.186:5000/api/v1/AlertAPI/Filter';
     var _body = json.encode({
       "pagination": {"per_page": 12, "page_num": 1},

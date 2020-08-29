@@ -1,10 +1,18 @@
+import 'dart:ui';
+
 import 'package:LyteApp/assets/theme.dart';
+import 'package:LyteApp/main.dart';
 import 'package:LyteApp/models/alert_response.dart';
 import 'package:LyteApp/pages/home/components/card.dart';
+import 'package:LyteApp/services/user_service.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/services/alert_feed_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:isolate';
+import 'dart:math';
 
 class HomePageBody extends StatefulWidget {
   @override
@@ -12,6 +20,50 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _HomePageBody extends State<HomePageBody> {
+  @override
+  void initState() {
+    super.initState();
+    AndroidAlarmManager.initialize();
+
+    // Register for events from the background isolate. These messages will
+    // always coincide with an alarm firing.
+    port.listen((_) async => await _incrementCounter());
+    callAlarmManager();
+  }
+
+  Future<void> _incrementCounter() async {
+    // Ensure we've loaded the updated count from the background isolate.
+    await prefs.reload();
+    setState(() {});
+  }
+
+  // The background
+  static SendPort uiSendPort;
+
+  // The callback for our alarm
+  static Future<void> callback() async {
+    print('Alarm fired!');
+
+    // Get the previous cached count and increment it.
+    final prefs = await SharedPreferences.getInstance();
+    int currentCount = prefs.getInt(countKey);
+    String userName = prefs.getString(userNameKey);
+    String orgId = prefs.getString(orgIdKey);
+    print(userName);
+    print(orgId);
+
+    var response = await AlertService()
+        .getNewAlerts(userToken: userName, userOrganisation: orgId);
+
+    if (response.total != currentCount) {
+      await prefs.setInt(countKey, response.total);
+    }
+
+    // This will be null if we're running in the background.
+    uiSendPort ??= IsolateNameServer.lookupPortByName(isolateName);
+    uiSendPort?.send(null);
+  }
+
   List<Alert> alerts = [];
   @override
   Widget build(BuildContext context) {
@@ -57,6 +109,17 @@ class _HomePageBody extends State<HomePageBody> {
                 );
               })),
     );
+  }
+
+  callAlarmManager() async {
+    await AndroidAlarmManager.periodic(
+        Duration(seconds: 30), Random().nextInt(pow(2, 31)), callback);
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(userNameKey, UserService().getUser.token);
+    await prefs.setString(orgIdKey, UserService().getUser.organisationID);
+    var response = await AlertService().getNewAlerts();
+    await prefs.setInt(countKey, response.total);
   }
 
   dismissCallback() {
