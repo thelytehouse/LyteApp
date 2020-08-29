@@ -1,10 +1,11 @@
 import 'package:LyteApp/assets/theme.dart';
+import 'package:LyteApp/pages/home/home_page.dart';
 import 'package:LyteApp/services/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
-  static String route = 'login-page';
+  static String route = '/';
   static String _logoImagePath = 'lib/assets/images/full_logo.png';
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
         children: [
           _buildLogoImage(),
           _buildInputfields(),
-          _buildLoginButton(),
+          _buildLoginButton(context),
         ],
       )),
     );
@@ -72,7 +73,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -84,7 +85,16 @@ class LoginScreen extends StatelessWidget {
             String username = _usernameController.text;
             String password = _passwordController.text;
             var loginResponse = await login(username, password);
-            print(loginResponse);
+            if (loginResponse.status.toLowerCase() == 'success') {
+              // Navigate to bens page
+              print(loginResponse.status);
+              print(loginResponse.message);
+              Navigator.pushReplacementNamed(context, HomePage.route);
+            } else {
+              // Give user error message
+              print(loginResponse.status);
+              print(loginResponse.message);
+            }
           },
           child: Text('Sign in'),
         ),

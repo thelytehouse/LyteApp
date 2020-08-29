@@ -1,4 +1,4 @@
-import 'package:LyteApp/home/components/card.dart';
+import 'package:LyteApp/pages/home/components/card.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
