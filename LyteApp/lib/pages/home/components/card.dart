@@ -1,8 +1,8 @@
 import 'package:LyteApp/assets/theme.dart';
 import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/services/alert_feed_service.dart';
+import 'package:LyteApp/pages/home/components/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:fluro/fluro.dart';
 import 'package:LyteApp/Routes.dart';
@@ -92,7 +92,12 @@ class AlertCard extends StatelessWidget {
       height: 120.0,
       margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
       child: new FlatButton(
-        onPressed: () => _navigateTo(context, alert.id),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VideoApp(alert.clipPath),
+          ),
+        ),
         child: new Stack(
           children: <Widget>[
             alertCard,
