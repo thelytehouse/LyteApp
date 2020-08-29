@@ -1,0 +1,91 @@
+import 'package:LyteApp/models/alert.dart';
+import 'package:flutter/material.dart';
+import 'package:LyteApp/models/alert.dart';
+import 'package:LyteApp/Theme.dart' as Theme;
+import 'package:fluro/fluro.dart';
+import 'package:LyteApp/Routes.dart';
+
+class AlertCard extends StatelessWidget {
+  final Alert alert;
+
+  AlertCard(this.alert);
+
+  @override
+  Widget build(BuildContext context) {
+    final alertThumbnail = new Container(
+      alignment: new FractionalOffset(0.0, 0.5),
+      margin: const EdgeInsets.only(left: 5.0),
+      child: new Hero(
+        tag: 'alert-icon-${alert.id}',
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+          child: Image.network(
+            'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+
+    final alertCard = new Container(
+      margin: const EdgeInsets.only(left: 50.0, right: 24.0),
+      decoration: new BoxDecoration(
+        color: Theme.Colors.alertCard,
+        shape: BoxShape.rectangle,
+        borderRadius: new BorderRadius.circular(8.0),
+        boxShadow: <BoxShadow>[
+          new BoxShadow(
+              color: Colors.black,
+              blurRadius: 10.0,
+              offset: new Offset(0.0, 10.0))
+        ],
+      ),
+      child: new Container(
+        margin: const EdgeInsets.only(top: 16.0, left: 72.0),
+        constraints: new BoxConstraints.expand(),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Text(alert.cameraName, style: Theme.TextStyles.alertTitle),
+            new Text(alert.timeStamp, style: Theme.TextStyles.alertLocation),
+            new Container(
+                color: const Color(0xFF00C6FF),
+                width: 24.0,
+                height: 1.0,
+                margin: const EdgeInsets.symmetric(vertical: 8.0)),
+            new Row(
+              children: <Widget>[
+                new Icon(Icons.location_on,
+                    size: 14.0, color: Theme.Colors.alertDistance),
+                new Text(alert.priority, style: Theme.TextStyles.alertDistance),
+                new Container(width: 24.0),
+                new Icon(Icons.flight_land,
+                    size: 14.0, color: Theme.Colors.alertDistance),
+                new Text(alert.objects, style: Theme.TextStyles.alertDistance),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+
+    return new Container(
+      height: 120.0,
+      margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+      child: new FlatButton(
+        onPressed: () => _navigateTo(context, alert.id),
+        child: new Stack(
+          children: <Widget>[
+            alertCard,
+            alertThumbnail,
+          ],
+        ),
+      ),
+    );
+  }
+
+  _navigateTo(context, String id) {
+    Routes.navigateTo(context, '/detail/${alert.id}',
+        transition: TransitionType.fadeIn);
+  }
+}
