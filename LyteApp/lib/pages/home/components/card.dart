@@ -72,13 +72,16 @@ class AlertCard extends StatelessWidget {
                 new Text(alert.objects, style: Theme.TextStyles.alertDistance),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildShareButton(alert.clipPath),
-                _buildSaveButton(),
-                _buildDismissButton()
-              ],
+            Padding(
+              padding: EdgeInsets.only(top: 20, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildShareButton(alert.clipPath),
+                  _buildSaveButton(),
+                  _buildDismissButton()
+                ],
+              ),
             )
           ],
         ),
