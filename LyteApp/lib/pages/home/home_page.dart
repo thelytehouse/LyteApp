@@ -7,13 +7,33 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: new Column(
-        children: <Widget>[
-          new GradientAppBar("LyteHouse"),
-          new HomePageBody(),
-        ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.add_alert)),
+              Tab(icon: Icon(Icons.save)),
+            ],
+          ),
+          title: GradientAppBar("LyteHouse"),
+        ),
+        body: TabBarView(
+          children: [
+            new HomePageBody(),
+            new HomePageBody(),
+          ],
+        ),
       ),
     );
+
+    //   body: new Column(
+    //     children: <Widget>[
+    //       new GradientAppBar("LyteHouse"),
+    //       new HomePageBody(),
+    //     ],
+    //   ),
+    // );
   }
 }
