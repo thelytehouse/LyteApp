@@ -1,5 +1,3 @@
-import 'package:LyteApp/home/home_page.dart';
-import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 
 class Routes {

@@ -1,5 +1,5 @@
 import 'package:LyteApp/assets/theme.dart';
-import 'package:LyteApp/home/home_page.dart';
+import 'package:LyteApp/pages/home/home_page.dart';
 import 'package:LyteApp/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +22,8 @@ class LyteApp extends StatelessWidget {
         ),
       ),
       routes: {
-        '/': (context) => HomePage(),
         LoginScreen.route: (context) => LoginScreen(),
-        'alert-feed': (context) => HomePage(),
+        HomePage.route: (context) => HomePage(),
       },
     );
   }
