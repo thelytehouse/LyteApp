@@ -1,7 +1,6 @@
-import 'package:LyteApp/Assets/theme.dart';
+import 'package:LyteApp/assets/theme.dart';
+import 'package:LyteApp/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
-
-import 'Login/login_page.dart';
 
 void main() {
   runApp(LyteApp());

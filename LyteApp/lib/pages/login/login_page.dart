@@ -1,3 +1,5 @@
+import 'package:LyteApp/assets/theme.dart';
+import 'package:LyteApp/services/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,8 +19,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(
         children: [
           _buildLogoImage(),
-          _buildUsernameInput(),
-          _buildPasswordInput(),
+          _buildInputfields(),
           _buildLoginButton(),
         ],
       )),
@@ -39,6 +40,15 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildInputfields() {
+    return Column(
+      children: [
+        _buildUsernameInput(),
+        _buildPasswordInput(),
+      ],
+    );
+  }
+
   Widget _buildUsernameInput() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -54,6 +64,7 @@ class LoginScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextField(
+        obscureText: true,
         controller: _passwordController,
         decoration: InputDecoration(
             border: InputBorder.none, hintText: 'Enter password here'),
@@ -62,14 +73,21 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginButton() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: RaisedButton(
-        onPressed: () {
-          print(_usernameController.text);
-          print(_passwordController.text);
-        },
-        child: Text('Sign in'),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: RaisedButton(
+          color: LytehouseColors.purple,
+          textColor: Colors.white,
+          onPressed: () async {
+            String username = _usernameController.text;
+            String password = _passwordController.text;
+            var loginResponse = await login(username, password);
+            print(loginResponse);
+          },
+          child: Text('Sign in'),
+        ),
       ),
     );
   }
