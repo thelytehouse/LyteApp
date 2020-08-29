@@ -6,11 +6,8 @@ import 'package:intl/intl.dart';
 
 class AlertService {
   Future<AlertResponse> getNewAlerts() async {
-    String orgID = '6c653083-d10e-4298-9e3e-fafb9881cd56';
-    String token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTkwMjgzMTEsImlhdCI6MTU5NzgxODcxMSwic3ViIjoiNzVkMzQ4YWUtOThhZC00NTY2LTgxMDgtNDAxMmM0YjY5MDU2In0.ee7vBcv559Nj4EFUOJLiPdM50hocbdV3jIA_ZKWmMd0";
-    // String orgID = UserService().getUser.organisationID;
-    // String token = UserService().getUser.token;
+    String orgID = UserService().getUser.organisationID;
+    String token = UserService().getUser.token;
     String _endpoint = 'http://3.1.209.186:5000/api/v1/AlertAPI/Filter';
     var _body = json.encode({
       "pagination": {"per_page": 12, "page_num": 1},

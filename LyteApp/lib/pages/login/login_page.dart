@@ -17,14 +17,17 @@ class LoginScreen extends StatelessWidget {
       // appBar: AppBar(
       //   title: Text("Login Screen"),
       // ),
-      body: Center(
+      body: Column(children: [
+        Expanded(
           child: ListView(
-        children: [
-          _buildLogoImage(),
-          _buildInputfields(),
-          _buildLoginButton(context),
-        ],
-      )),
+            children: [
+              _buildLogoImage(),
+              _buildInputfields(),
+            ],
+          ),
+        ),
+        _buildLoginButton(context),
+      ]),
     );
   }
 
