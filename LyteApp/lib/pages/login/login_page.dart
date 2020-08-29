@@ -1,6 +1,7 @@
 import 'package:LyteApp/assets/theme.dart';
 import 'package:LyteApp/pages/home/home_page.dart';
 import 'package:LyteApp/services/login_service.dart';
+import 'package:LyteApp/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -84,12 +85,19 @@ class LoginScreen extends StatelessWidget {
           onPressed: () async {
             String username = _usernameController.text;
             String password = _passwordController.text;
-            var loginResponse = await login(username, password);
+            var loginResponse = await LoginService().login(username, password);
             if (loginResponse.status.toLowerCase() == 'success') {
               // Navigate to bens page
               print(loginResponse.status);
               print(loginResponse.message);
-              Navigator.pushReplacementNamed(context, HomePage.route);
+              var getUserDetails =
+                  await UserService().getUserDetails(loginResponse.authToken);
+              if (getUserDetails.status.toLowerCase() == 'success') {
+                UserService().setUserToken(loginResponse.authToken);
+                Navigator.pushReplacementNamed(context, HomePage.route);
+              } else {
+                print("failed to get the user details");
+              }
             } else {
               // Give user error message
               print(loginResponse.status);

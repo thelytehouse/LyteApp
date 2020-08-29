@@ -1,5 +1,6 @@
 import 'package:LyteApp/models/alert_response.dart';
 import 'package:LyteApp/pages/home/components/card.dart';
+import 'package:LyteApp/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
 import 'package:LyteApp/models/alert.dart';
@@ -28,7 +29,7 @@ class _HomePageBody extends State<HomePageBody> {
   }
 
   Future<String> returnCard() async {
-    AlertResponse jsonObject = await getNewAlerts('');
+    AlertResponse jsonObject = await getNewAlerts();
     setState(() {
       alerts = jsonObject.items;
     });
