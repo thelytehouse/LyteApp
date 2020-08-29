@@ -8,8 +8,9 @@ import 'package:share/share.dart';
 
 class AlertCard extends StatelessWidget {
   final Alert alert;
+  final Function successfulDismissCallback;
 
-  AlertCard(this.alert);
+  AlertCard({this.alert, this.successfulDismissCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +134,7 @@ class AlertCard extends StatelessWidget {
           var response = await AlertService().dismissAlert(alert.id);
           if (response.toLowerCase() != "fail") {
             AlertService().getNewAlerts();
+            successfulDismissCallback();
           }
         },
       ),

@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
       //   title: Text("Login Screen"),
       // ),
       body: Center(
-          child: Column(
+          child: ListView(
         children: [
           _buildLogoImage(),
           _buildInputfields(),

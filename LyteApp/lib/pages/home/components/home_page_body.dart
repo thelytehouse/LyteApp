@@ -26,13 +26,15 @@ class _HomePageBody extends State<HomePageBody> {
                 if (snapshot.hasData) {
                   List<Alert> alerts = snapshot.data.items;
                   for (var i = 0; i < alerts.length; i++) {
-                    children.add(AlertCard(alerts[i]));
+                    children.add(AlertCard(
+                        alert: alerts[i],
+                        successfulDismissCallback: dismissCallback));
                   }
                 } else {
                   children = <Widget>[
                     SizedBox(
                       child: CircularProgressIndicator(),
-                      width: 60,
+                      width: 30,
                       height: 60,
                     ),
                     const Padding(
@@ -47,6 +49,10 @@ class _HomePageBody extends State<HomePageBody> {
                 );
               })),
     );
+  }
+
+  dismissCallback() {
+    setState(() {});
   }
 
   Future<void> returnCard() async {
