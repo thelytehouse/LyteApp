@@ -4,6 +4,7 @@ import 'package:LyteApp/services/alert_feed_service.dart';
 import 'package:LyteApp/pages/home/components/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
+import 'package:share/share.dart';
 
 class AlertCard extends StatelessWidget {
   final Alert alert;
@@ -22,7 +23,7 @@ class AlertCard extends StatelessWidget {
           child: Image.network(
             alert.gifPath,
             width: 100,
-            height: 150,
+            height: 184,
             fit: BoxFit.cover,
           ),
         ),
@@ -57,11 +58,11 @@ class AlertCard extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 8.0)),
             new Row(
               children: <Widget>[
-                new Icon(Icons.location_on,
+                new Icon(Icons.add_alert,
                     size: 14.0, color: Theme.Colors.alertDistance),
                 new Text(alert.priority, style: Theme.TextStyles.alertDistance),
                 new Container(width: 24.0),
-                new Icon(Icons.flight_land,
+                new Icon(Icons.person,
                     size: 14.0, color: Theme.Colors.alertDistance),
                 new Text(alert.objects, style: Theme.TextStyles.alertDistance),
               ],
@@ -69,7 +70,7 @@ class AlertCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildShareButton(),
+                _buildShareButton(alert.clipPath),
                 _buildSaveButton(),
                 _buildDismissButton()
               ],
@@ -109,12 +110,14 @@ class AlertCard extends StatelessWidget {
     );
   }
 
-  Widget _buildShareButton() {
+  Widget _buildShareButton(String ulr) {
     return IconButton(
       color: LytehouseColors.yellow,
       icon: Icon(Icons.share),
       onPressed: () async {
         print("This is the share button ${alert.id}");
+        Share.share('Lytehouse caught this cunt ' + ulr,
+            subject: 'Lytehouse caught this cunt');
       },
     );
   }
