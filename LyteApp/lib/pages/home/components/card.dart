@@ -17,10 +17,19 @@ class AlertCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 5.0),
       child: new Hero(
         tag: 'alert-icon-${alert.id}',
-        child: ClipRRect(
+        child:
+            // Image.network(
+            //   alert.gifPath,
+            //   width: 100,
+            //   height: 150,
+            //   fit: BoxFit.cover,
+            // ),
+            ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(50.0)),
           child: Image.network(
-            'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+            alert.gifPath,
+            width: 100,
+            height: 150,
             fit: BoxFit.cover,
           ),
         ),

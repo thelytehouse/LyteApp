@@ -39,13 +39,13 @@ class TextStyles {
       color: Colors.alertTitle,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w600,
-      fontSize: 24.0);
+      fontSize: 15.0);
 
   static const TextStyle alertLocation = const TextStyle(
       color: Colors.alertLocation,
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w300,
-      fontSize: 14.0);
+      fontSize: 10.0);
 
   static const TextStyle alertDistance = const TextStyle(
       color: Colors.alertDistance,

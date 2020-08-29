@@ -15,4 +15,16 @@ class Alert {
       this.clipPath,
       this.gifPath,
       this.timeStamp});
+
+  factory Alert.fromJson(Map<String, dynamic> json) {
+    return Alert(
+      id: json['id'],
+      cameraName: json['camera_name'],
+      objects: json['objects'],
+      clipPath: json['clip_location'],
+      gifPath: json['gif_location'],
+      timeStamp: json['creation_timestamp'],
+      priority: json['priority'],
+    );
+  }
 }

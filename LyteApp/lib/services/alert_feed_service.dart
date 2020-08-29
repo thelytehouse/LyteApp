@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:LyteApp/models/alert.dart';
+import 'package:LyteApp/models/alert_response.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> getNewAlerts(String orgID) async {
+Future<AlertResponse> getNewAlerts(String orgID) async {
   orgID = '6c653083-d10e-4298-9e3e-fafb9881cd56';
   String _endpoint = 'http://3.1.209.186:5000/api/v1/AlertAPI/Filter';
   var _body = json.encode({
@@ -32,12 +34,11 @@ Future<String> getNewAlerts(String orgID) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return response.body;
+    return AlertResponse.fromJson(json.decode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     print(response.body);
   }
-
-  return "failed";
+  return new AlertResponse();
 }
