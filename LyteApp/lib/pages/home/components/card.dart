@@ -3,8 +3,7 @@ import 'package:LyteApp/pages/home/components/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:LyteApp/models/alert.dart';
 import 'package:LyteApp/Theme.dart' as Theme;
-import 'package:fluro/fluro.dart';
-import 'package:LyteApp/Routes.dart';
+import 'package:share/share.dart';
 
 class AlertCard extends StatelessWidget {
   final Alert alert;
@@ -65,11 +64,11 @@ class AlertCard extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 8.0)),
             new Row(
               children: <Widget>[
-                new Icon(Icons.location_on,
+                new Icon(Icons.add_alert,
                     size: 14.0, color: Theme.Colors.alertDistance),
                 new Text(alert.priority, style: Theme.TextStyles.alertDistance),
                 new Container(width: 24.0),
-                new Icon(Icons.flight_land,
+                new Icon(Icons.person,
                     size: 14.0, color: Theme.Colors.alertDistance),
                 new Text(alert.objects, style: Theme.TextStyles.alertDistance),
               ],
