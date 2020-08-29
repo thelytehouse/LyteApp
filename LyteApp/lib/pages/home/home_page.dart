@@ -21,8 +21,16 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            new HomePageBody(),
-            new HomePageBody(),
+            Column(
+              children: [
+                HomePageBody(),
+              ],
+            ),
+            Column(
+              children: [
+                HomePageBody(),
+              ],
+            )
           ],
         ),
       ),
