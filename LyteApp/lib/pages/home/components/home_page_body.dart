@@ -17,6 +17,7 @@ import 'dart:math';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     new FlutterLocalNotificationsPlugin();
+AppLifecycleState _applicationState = AppLifecycleState.resumed;
 
 class HomePageBody extends StatefulWidget {
   @override
@@ -24,15 +25,11 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _HomePageBody extends State<HomePageBody> with WidgetsBindingObserver {
-  static AppLifecycleState _applicationState = AppLifecycleState.resumed;
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('app state');
     print(state);
-    setState(() {
-      _applicationState = state;
-    });
+    _applicationState = state;
   }
 
   @override
@@ -51,7 +48,6 @@ class _HomePageBody extends State<HomePageBody> with WidgetsBindingObserver {
 
     // Starting the background stuff
     AndroidAlarmManager.initialize();
-    port.listen((_) async => await _incrementCounter());
     callAlarmManager();
   }
 
@@ -88,12 +84,6 @@ class _HomePageBody extends State<HomePageBody> with WidgetsBindingObserver {
     );
   }
 
-  Future<void> _incrementCounter() async {
-    // Ensure we've loaded the updated count from the background isolate.
-    await prefs.reload();
-    setState(() {});
-  }
-
   // The background
   static SendPort uiSendPort;
 
@@ -108,7 +98,6 @@ class _HomePageBody extends State<HomePageBody> with WidgetsBindingObserver {
     var response = await AlertService()
         .getNewAlerts(userToken: userName, userOrganisation: orgId);
 
-    // Testing if it will incrememtnt
     if (response.total != currentCount &&
         _applicationState != AppLifecycleState.resumed) {
       print('We should get push notifications now');

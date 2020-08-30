@@ -36,6 +36,9 @@ main() async {
   if (!prefs.containsKey(orgIdKey)) {
     await prefs.setString(orgIdKey, '');
   }
+
+  port.listen((_) async => await prefs.reload());
+
   runApp(LyteApp());
 }
 
